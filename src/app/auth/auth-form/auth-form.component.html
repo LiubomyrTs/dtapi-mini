@@ -1,14 +1,20 @@
-<form [formGroup]="userData" (ngSubmit)="onLogin()" *ngIf="!loading">
-    <div>
-        <label for="username">Username:</label>
-        <input type="text" formControlName="username" id="username">
+<div class="container my-2">
+    <div class="d-flex align-items-center justify-content-center sign-in-wrapper" *ngIf="!isLoggedIn">
+        <form [formGroup]="userData" (ngSubmit)="onLogin()" *ngIf="!loading" class="form-signin text-center">
+            <div class="mb-3">
+                <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+                <input type="text" id="username" class="form-control mb-1" placeholder="Username" formControlName="username"  required autofocus>
+                <input type="password" id="password" class="form-control" placeholder="Password" formControlName="password" required>
+            </div>
+            <button class="btn btn-primary btn-block" type="submit">Sign in</button>
+        </form>
+        <div *ngIf="loading" class="d-flex justify-content-center"><app-loader></app-loader></div>
     </div>
-    <div>
-        <label for="password">Password:</label>
-        <input type="password" formControlName="password" id="password">   
+    <div *ngIf="isLoggedIn">
+        <h1>Greetings, {{userName}}!</h1>
+        <button (click)="onLogout()" class="btn btn-danger">Logout</button>
     </div>
-    <input type="submit">
-</form>
-<div *ngIf="loading">Loading...</div>
-<button (click)="onGetFaculties()">Get faculties</button>
-<button (click)="onLogout()">Logout</button>
+</div>
+    <!-- <button (click)="onGetFaculties()">Get faculties</button>
+    <button (click)="onLogout()">Logout</button> -->
+<app-modal *ngIf="error" [errorMessage]="errorMessage" (modalClosed)="onModalClosed()"></app-modal>
